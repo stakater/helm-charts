@@ -1,0 +1,13 @@
+{{- if .Values.config -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "nexus.fullname" . }}-conf
+  labels:
+{{ include "nexus.labels" . | indent 4 }}
+data:
+  {{- range $key, $value := .Values.config.configFiles }}
+  {{ $key }}: |
+{{ $value | indent 4}}
+  {{- end }}
+{{- end }}

@@ -4,6 +4,10 @@ metadata:
   name: {{ template "nexus.fullname" . }}
   labels:
 {{ include "nexus.labels" . | indent 4 }}
+{{- if .Values.deployment.annotations }}
+  annotations:
+{{ toYaml .Values.deployment.annotations | indent 4 }}
+{{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.deploymentStrategy }}
@@ -32,6 +36,12 @@ spec:
         - name: nexus
           image: {{ .Values.nexus.imageName }}:{{ .Values.nexus.imageTag }}
           imagePullPolicy: {{ .Values.nexus.imagePullPolicy }}
+          {{- if .Values.deployment.postStart }}
+          lifecycle:
+            postStart:
+              exec:
+                command: {{ .Values.deployment.postStart.command }}
+          {{- end }}
           env:
 {{ toYaml .Values.nexus.env | indent 12 }}
           resources:
@@ -60,6 +70,9 @@ spec:
               name: nexus-data
             - mountPath: /nexus-data/backup
               name: nexus-backup
+            {{- with .Values.deployment.additionalVolumes }}
+{{ toYaml .volumeMounts | indent 12 }}
+            {{- end }}
         - name: nexus-proxy
           image: {{ .Values.nexusProxy.imageName }}:{{ .Values.nexusProxy.imageTag }}
           resources:
@@ -169,6 +182,9 @@ spec:
             claimName: {{ .Values.nexusBackup.persistence.existingClaim | default (printf "%s-%s" (include "nexus.fullname" .) "backup") }}
           {{- else }}
           emptyDir: {}
+          {{- end }}
+          {{- with .Values.deployment.additionalVolumes }}
+{{ toYaml .volumes | indent 8 }}
           {{- end }}
     {{- with .Values.tolerations }}
       tolerations:

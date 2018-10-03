@@ -94,6 +94,11 @@ persistence:
   # If PersistentDisk already exists you can create a PV for it by including the 2 following keypairs.
   # pdName: nexus-data-disk
   # fsType: ext4
+  # You can add disks other than gcePersistentDisk as well by including otherPersistentDiskType
+  # otherPersistentDiskType:
+    # nfs:
+      # server: foo.bar.server
+      # path: "/nexus"
 
 nexusBackup:
   enabled: false
@@ -130,3 +135,23 @@ ingress:
     secretName: nexus-tls
 
 tolerations: []
+
+deployment:
+  annotations: {}
+  # additionalVolumes:
+    # volumes:
+      # - name: nexus3-conf
+        # persistentVolumeClaim:
+          # claimName: claimName
+      # - name: volume2
+        # emptyDir: {}
+    # volumeMounts:
+      # - name: nexus3-conf
+        # mountPath: /nexus3-conf
+      
+
+  # postStart:
+    # command: '["/bin/sh", "-c", "/nexus3-conf/postStart.sh"]'
+
+# config:
+  # configFiles:
