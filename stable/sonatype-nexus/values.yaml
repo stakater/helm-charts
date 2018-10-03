@@ -141,26 +141,26 @@ deployment:
   annotations: {}
   # additionalVolumes:
     # volumes:
-      # - name: nexus3-conf
+      # - name: nexus-conf
         # persistentVolumeClaim:
           # claimName: claimName
       # - name: volume2
         # emptyDir: {}
     # volumeMounts:
-      # - name: nexus3-conf
-        # mountPath: /nexus3-conf
+      # - name: nexus-conf
+        # mountPath: /nexus-conf
       
 
   # postStart:
-    # command: '["/bin/sh", "-c", "/nexus3-conf/postStart.sh"]'
+    # command: '["/bin/sh", "-c", "/nexus-conf/postStart.sh"]'
 
 secret:
   additionalSecret:
-    name: nexus-admin-account
-    data:
-      .admin_account.json: "test_admin_account"
-      .cluster_account.json: "test_cluster_account"
+    # name: nexus-admin-account
+    # data:
+      # .admin_account.json: "test_admin_account"
+      # .cluster_account.json: "test_cluster_account"
 
 # config:
-  # name: nexus3-conf
+  # name: nexus-conf
   # configFiles:
