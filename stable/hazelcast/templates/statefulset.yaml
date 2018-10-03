@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: {{ .Values.statefulset.apiVersion }}
 kind: StatefulSet
 metadata:
   name: {{ template "hazelcast.fullname" . }}

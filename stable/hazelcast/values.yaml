@@ -1,6 +1,8 @@
 ## Hazelcast image version
 ## ref: https://hub.docker.com/r/hazelcast/hazelcast-kubernetes/tags/
 ##
+statefulset:
+  apiVersion: apps/v1beta2
 image:
   # repository is the Hazelcast image name
   repository: "hazelcast/hazelcast-kubernetes"
