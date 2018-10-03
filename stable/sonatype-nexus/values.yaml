@@ -53,6 +53,7 @@ nexus:
   #   - "www.example.com"
 
 nexusProxy:
+  enabled: false
   imageName: quay.io/travelaudience/docker-nexus-proxy
   imageTag: 2.3.0
   imagePullPolicy: IfNotPresent
@@ -153,5 +154,13 @@ deployment:
   # postStart:
     # command: '["/bin/sh", "-c", "/nexus3-conf/postStart.sh"]'
 
+secret:
+  additionalSecret:
+    name: nexus-admin-account
+    data:
+      .admin_account.json: "test_admin_account"
+      .cluster_account.json: "test_cluster_account"
+
 # config:
+  # name: nexus3-conf
   # configFiles:
