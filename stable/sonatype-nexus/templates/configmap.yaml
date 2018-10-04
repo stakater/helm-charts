@@ -5,6 +5,9 @@ metadata:
   name: {{ .Values.config.name }}
   labels:
 {{ include "nexus.labels" . | indent 4 }}
+{{- if .Values.nexus.labels }}
+{{ toYaml .Values.nexus.labels | indent 4 }}
+{{- end }}
 data:
   {{- range $key, $value := .Values.config.configFiles }}
   {{ $key }}: |

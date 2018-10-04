@@ -39,11 +39,13 @@ nexus:
     initialDelaySeconds: 30
     periodSeconds: 30
     failureThreshold: 6
+    timeoutSeconds: 10
     path: /
   readinessProbe:
     initialDelaySeconds: 30
     periodSeconds: 30
     failureThreshold: 6
+    timeoutSeconds: 10
     path: /
   # hostAliases allows the modification of the hosts file inside a container
   hostAliases: []
@@ -58,6 +60,7 @@ nexusProxy:
   imageTag: 2.3.0
   imagePullPolicy: IfNotPresent
   port: 8080
+  targetPort: 8080
   env:
     nexusDockerHost:
     nexusHttpHost:
@@ -90,16 +93,11 @@ persistence:
   # existingClaim:
   # annotations:
   #  "helm.sh/resource-policy": keep
-  # storageClass: "-"
+  storageClass: "-"
   storageSize: 8Gi
   # If PersistentDisk already exists you can create a PV for it by including the 2 following keypairs.
   # pdName: nexus-data-disk
   # fsType: ext4
-  # You can add disks other than gcePersistentDisk as well by including otherPersistentDiskType
-  # otherPersistentDiskType:
-    # nfs:
-      # server: foo.bar.server
-      # path: "/nexus"
 
 nexusBackup:
   enabled: false
@@ -142,17 +140,23 @@ deployment:
   # additionalVolumes:
     # volumes:
       # - name: nexus-conf
-        # persistentVolumeClaim:
-          # claimName: claimName
-      # - name: volume2
-        # emptyDir: {}
+        # configMap:
+          # name: nexus-conf
+      # - name: admin-account-volume
+        # secret:
+          # secretName: nexus-admin-account
     # volumeMounts:
       # - name: nexus-conf
         # mountPath: /nexus-conf
-      
-
+      # - name: admin-account-volume
+        # mountPath: /etc/secret-volume
+        # readOnly: true
   # postStart:
     # command: '["/bin/sh", "-c", "/nexus-conf/postStart.sh"]'
+  # initContainers:
+
+selector:
+  # additionalMatchLabels:
 
 secret:
   additionalSecret:

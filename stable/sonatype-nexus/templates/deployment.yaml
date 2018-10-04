@@ -4,6 +4,9 @@ metadata:
   name: {{ template "nexus.fullname" . }}
   labels:
 {{ include "nexus.labels" . | indent 4 }}
+{{- if .Values.nexus.labels }}
+{{ toYaml .Values.nexus.labels | indent 4 }}
+{{- end }}
 {{- if .Values.deployment.annotations }}
   annotations:
 {{ toYaml .Values.deployment.annotations | indent 4 }}
@@ -18,12 +21,22 @@ spec:
     matchLabels:
       app: {{ template "nexus.name" . }}
       release: {{ .Release.Name }}
+      {{- if .Values.selector.additionalMatchLabels }}
+{{ toYaml .Values.selector.additionalMatchLabels | indent 6 }}
+      {{- end }}
   template:
     metadata:
       labels:
         app: {{ template "nexus.name" . }}
         release: {{ .Release.Name }}
+        {{- if .Values.selector.additionalMatchLabels }}
+{{ toYaml .Values.selector.additionalMatchLabels | indent 8 }}
+      {{- end }}
     spec:
+      {{- if .Values.deployment.initContainers }}
+      initContainers:
+{{ toYaml .Values.deployment.initContainers | indent 6 }}      
+      {{- end }}
       {{- if .Values.nexus.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nexus.nodeSelector | indent 8 }}
@@ -58,6 +71,9 @@ spec:
             initialDelaySeconds: {{ .Values.nexus.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.nexus.livenessProbe.periodSeconds }}
             failureThreshold: {{ .Values.nexus.livenessProbe.failureThreshold }}
+            {{- if .Values.nexus.livenessProbe.timeoutSeconds }}
+            timeoutSeconds: {{ .Values.nexus.livenessProbe.timeoutSeconds }}
+            {{- end }}
           readinessProbe:
             httpGet:
               path: {{ .Values.nexus.readinessProbe.path }}
@@ -65,6 +81,9 @@ spec:
             initialDelaySeconds: {{ .Values.nexus.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.nexus.readinessProbe.periodSeconds }}
             failureThreshold: {{ .Values.nexus.readinessProbe.failureThreshold }}
+            {{- if .Values.nexus.readinessProbe.timeoutSeconds }}
+            timeoutSeconds: {{ .Values.nexus.readinessProbe.timeoutSeconds }}
+            {{- end }}
           volumeMounts:
             - mountPath: /nexus-data
               name: nexus-data

@@ -13,11 +13,7 @@ spec:
   claimRef:
     namespace: {{ .Release.Namespace }}
     name: {{ template "nexus.fullname" . }}-data
-  {{- if .Values.persistence.otherPersistentDiskType }}
-{{ toYaml .Values.persistence.otherPersistentDiskType | indent 2 }}
-  {{- else }}
   gcePersistentDisk:
     pdName: {{ .Values.persistence.pdName }}
     fsType: {{ .Values.persistence.fsType }}
-  {{- end }}
 {{- end }}

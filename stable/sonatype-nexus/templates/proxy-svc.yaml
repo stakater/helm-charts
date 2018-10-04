@@ -20,4 +20,7 @@ spec:
   selector:
     app: {{ template "nexus.name" . }}
     release: {{ .Release.Name }}
+    {{- if .Values.selector.additionalMatchLabels }}
+{{ toYaml .Values.selector.additionalMatchLabels | indent 4 }}
+    {{- end }}
   type: {{ .Values.nexus.serviceType }}
