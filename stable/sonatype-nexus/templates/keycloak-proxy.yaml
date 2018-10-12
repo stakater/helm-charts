@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+{{ include "nexus.labels" . | indent 4 }}
+{{- if .Values.nexus.labels }}
+{{ toYaml .Values.nexus.labels | indent 4 }}
+{{- end }}
+{{- if .Values.keycloak.labels }}
+{{ toYaml .Values.keycloak.labels | indent 4 }}
+{{- end }}
+  annotations:
+    {{- range $key, $value := .Values.keycloak.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  name: keycloak-proxy
+  keycloak.url: {{ .Values.keycloak.keycloakUrl }}
+data:
+{{ toYaml .Values.keycloak.data | indent 2 }}

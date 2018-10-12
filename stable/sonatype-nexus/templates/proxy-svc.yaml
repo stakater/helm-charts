@@ -16,7 +16,7 @@ spec:
     - name: {{ .Values.nexusProxy.name }}
       port: {{ .Values.nexusProxy.exposedPort }}
       protocol: TCP
-      targetPort: {{ .Values.nexusProxy.port }}
+      targetPort: {{ .Values.keycloak.port }}
   selector:
     app: {{ template "nexus.name" . }}
     release: {{ .Release.Name }}
