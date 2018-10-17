@@ -34,11 +34,12 @@ nexus:
   annotations:
     config.xposer.stakater.com/Domain: stackator.com
     config.xposer.stakater.com/IngressNameTemplate: '{{.Service}}-{{.Namespace}}'
-    config.xposer.stakater.com/IngressURLTemplate: nexus.dev.{{.Domain}}
+    config.xposer.stakater.com/IngressURLTemplate: '{{.Service}}.{{.Namespace}}.{{.Domain}}'
     config.xposer.stakater.com/TLS: "true"
     xposer.stakater.com/annotations: |-
       kubernetes.io/ingress.class: tcp-ingress
       ingress.kubernetes.io/force-ssl-redirect: true
+      ingress.kubernetes.io/proxy-body-size: 900m
       certmanager.k8s.io/cluster-issuer: letsencrypt-production
   # labels: {}
   # securityContext:
@@ -206,11 +207,12 @@ service:
   annotations:
     config.xposer.stakater.com/Domain: stackator.com
     config.xposer.stakater.com/IngressNameTemplate: '{{.Service}}-{{.Namespace}}'
-    config.xposer.stakater.com/IngressURLTemplate: docker.dev.{{.Domain}}
+    config.xposer.stakater.com/IngressURLTemplate: '{{.Service}}.{{.Namespace}}.{{.Domain}}'
     config.xposer.stakater.com/TLS: "true"
     xposer.stakater.com/annotations: |-
       kubernetes.io/ingress.class: tcp-ingress
       ingress.kubernetes.io/force-ssl-redirect: true
+      ingress.kubernetes.io/proxy-body-size: 900m
       certmanager.k8s.io/cluster-issuer: letsencrypt-production
   targetPort: 5003
   port: 80
