@@ -64,6 +64,7 @@ nexus:
 
 nexusProxy:
   enabled: false
+  svcName: nexus
   imageName: quay.io/travelaudience/docker-nexus-proxy
   imageTag: 2.3.0
   imagePullPolicy: IfNotPresent
@@ -197,7 +198,8 @@ secret:
 # # To use an additional service, set enable to true
 service:
   enabled: true
-  name: docker-service
+  name: docker
+  portName: docker
   serviceType: ClusterIP
   labels:
     expose: "true"
@@ -460,5 +462,3 @@ config:
         "type": "groovy",
         "content": "security.setUserRoles('admin', [])"
       }
-
-
