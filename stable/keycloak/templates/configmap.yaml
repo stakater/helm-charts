@@ -9,6 +9,8 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
+  realm.json: |-
+{{ toJson .Values.keycloak.realm  | indent 4 }}
   keycloak.sh: |
     #!/usr/bin/env bash
 

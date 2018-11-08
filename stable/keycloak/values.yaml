@@ -169,6 +169,9 @@ keycloak:
   extraVolumes: |
   extraVolumeMounts: |
 
+  #realm json for configmap
+  realm: |
+
   podDisruptionBudget: {}
     # maxUnavailable: 1
     # minAvailable: 1
